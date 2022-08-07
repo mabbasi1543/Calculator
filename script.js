@@ -9,6 +9,7 @@ textToNumbers = {
     "seven":7,
     "eight":8,
     "nine":9,
+    
 }
 numbers = [0,1,2,3,4,5,6,7,8,9]
 operatorsToSign = {
@@ -27,14 +28,14 @@ operators = {
 
 function getNextNumber(arr,i){
     let a="";
-    if (numbers.includes(Number(arr[i]))){
+    if (numbers.includes(Number(arr[i])) || arr[i] =="." ){
         a += arr[i].toString();
-        while(numbers.includes(Number(arr[i+1]))){
+        while(numbers.includes(Number(arr[i+1]))  || arr[i+1] =="." ){
             i++;
             a += arr[i].toString();
         }
     }
-
+    console.log(a)
     return a;
 }
 function getLastNumber(arr ,lastOperand){
@@ -56,19 +57,24 @@ function reset() {
 }
 function captureInput(event){
     if (event == "reset"){reset() } 
-    if (textToNumbers[event] || event == "zero"){
+    else if (textToNumbers[event] || event == "zero"){
         equation += textToNumbers[event];
         document.getElementsByClassName("current")[0].textContent = getLastNumber(equation,lastOperand)
         document.getElementsByClassName("full")[0].textContent = equation;
         
 
     }
-    if (operatorsToSign[event] && (!operators[equation.slice(-1)] && equation.length !=0) ){
+    else if (operatorsToSign[event] && (!operators[equation.slice(-1)] && equation.length !=0) ){
         equation += operatorsToSign[event];
         document.getElementsByClassName("full")[0].textContent = equation;
         lastOperand = equation.length;
     }
-    if (event == "equal"){
+    else if (event == "dot" && !(getLastNumber(equation,lastOperand).toString().includes("."))){
+        equation += ".";
+        document.getElementsByClassName("current")[0].textContent = getLastNumber(equation,lastOperand)
+        document.getElementsByClassName("full")[0].textContent = equation;
+    }
+    else if (event == "equal"){
         let a="";
         let b="";
         let operand="";
