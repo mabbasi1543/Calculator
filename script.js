@@ -48,7 +48,14 @@ function getLastNumber(arr ,lastOperand){
 
 let equation = "";
 let lastOperand = 0;
+function reset() {
+    equation = "";
+    lastOperand = 0;
+    document.getElementsByClassName("current")[0].textContent = "";
+    document.getElementsByClassName("full")[0].textContent = "";
+}
 function captureInput(e){
+    if (e.target.className == "reset"){reset() } 
     if (textToNumbers[e.target.className] || e.target.className == "zero"){
         equation += textToNumbers[e.target.className];
         document.getElementsByClassName("current")[0].textContent = getLastNumber(equation,lastOperand)
