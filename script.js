@@ -12,7 +12,7 @@ textToNumbers = {
 }
 numbers = [0,1,2,3,4,5,6,7,8,9]
 operatorsToSign = {
-    "devide" : "/",
+    "divide" : "/",
     "multiply" : "*",
     "addition" : "+",
     "subtract" : "-",
@@ -54,21 +54,21 @@ function reset() {
     document.getElementsByClassName("current")[0].textContent = "";
     document.getElementsByClassName("full")[0].textContent = "";
 }
-function captureInput(e){
-    if (e.target.className == "reset"){reset() } 
-    if (textToNumbers[e.target.className] || e.target.className == "zero"){
-        equation += textToNumbers[e.target.className];
+function captureInput(event){
+    if (event == "reset"){reset() } 
+    if (textToNumbers[event] || event == "zero"){
+        equation += textToNumbers[event];
         document.getElementsByClassName("current")[0].textContent = getLastNumber(equation,lastOperand)
         document.getElementsByClassName("full")[0].textContent = equation;
         
 
     }
-    if (operatorsToSign[e.target.className] && (!operators[equation.slice(-1)] && equation.length !=0) ){
-        equation += operatorsToSign[e.target.className];
+    if (operatorsToSign[event] && (!operators[equation.slice(-1)] && equation.length !=0) ){
+        equation += operatorsToSign[event];
         document.getElementsByClassName("full")[0].textContent = equation;
         lastOperand = equation.length;
     }
-    if (e.target.className == "equal"){
+    if (event == "equal"){
         let a="";
         let b="";
         let operand="";
@@ -102,5 +102,60 @@ function captureInput(e){
 
 buttons = document.querySelectorAll("button");
 for (let i = 0 ; i < buttons.length ; i++){
-    buttons[i].addEventListener("click", (e) => captureInput(e));
+    buttons[i].addEventListener("click", (e) => captureInput(e.target.className));
 }
+this.addEventListener('keypress', event => {
+    switch(event.key){
+        case "0":
+            captureInput("zero");
+            break;
+        case "1":
+            captureInput("one");
+            break;
+        case "2":
+            captureInput("two");
+            break;
+        case "3":
+            captureInput("three");
+            break;
+        case "4":
+            captureInput("four");
+            break;
+        case "5":
+            captureInput("five");
+            break;
+        case "6":
+            captureInput("six");
+            break;
+        case "7":
+            captureInput("seven");
+            break;
+        case "8":
+            captureInput("eight");
+            break;
+        case "9":
+            captureInput("nine");
+            break;
+        case "+":
+            captureInput("addition");
+            break;
+        case "-":
+            captureInput("subtract");
+            break;
+        case "*":
+            captureInput("multiply");
+            break;
+        case "/":
+            captureInput("divide");
+            break;
+        case ".":
+            captureInput("dot");
+            break;
+        case "=":
+            captureInput("equal");
+            break;
+        case "Enter":
+            captureInput("equal");
+            break;       
+    }
+  })
